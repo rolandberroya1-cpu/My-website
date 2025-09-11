@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Website | Contact</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style id="app-style">
+    :root {
+      --primary-color: #4f46e5;
+      --secondary-color: #10b981;
+      --tertiary-color: #f97316;
+      --light-color: #f9fafb;
+      --dark-color: #1f2937;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-color);
+      color: var(--dark-color);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(to bottom right, var(--primary-color), var(--secondary-color));
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, transparent 20%, rgba(0, 0, 0, 0.1) 100%);
+      pointer-events: none;
+    }
+    
+    header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    
+    header p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+    
+    .header-btn {
+      padding: 0.8rem 2rem;
+      background-color: white;
+      color: var(--primary-color);
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Navbar Styles */
+    .navbar {
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: var(--transition);
+      background-color: transparent;
+    }
+    
+    .navbar.scrolled {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar.scrolled a {
+      color: var(--dark-color);
+    }
+    
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 2rem;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: currentColor;
+      transition: var(--transition);
+    }
+    
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+    
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    /* Contact Section Styles */
+    .contact-section {
+      padding: 6rem 0;
+      background-color: white;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .contact-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .contact-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .contact-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .icon-wrapper {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      transition: var(--transition);
+    }
+    
+    .contact-card:nth-child(1) .icon-wrapper {
+      background-color: rgba(79, 70, 229, 0.1);
+      color: var(--primary-color);
+    }
+    
+    .contact-card:nth-child(2) .icon-wrapper {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--secondary-color);
+    }
+    
+    .contact-card:nth-child(3) .icon-wrapper {
+      background-color: rgba(249, 115, 22, 0.1);
+      color: var(--tertiary-color);
+    }
+    
+    .contact-card:nth-child(1):hover .icon-wrapper {
+      background-color: var(--primary-color);
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .contact-card:nth-child(2):hover .icon-wrapper {
+      background-color: var(--secondary-color);
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .contact-card:nth-child(3):hover .icon-wrapper {
+      background-color: var(--tertiary-color);
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .contact-card h3 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .contact-card p {
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+    
+    .contact-link {
+      display: inline-block;
+      color: var(--primary-color);
+      font-weight: 500;
+      text-decoration: none;
+      position: relative;
+    }
+    
+    .contact-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: currentColor;
+      transition: var(--transition);
+    }
+    
+    .contact-link:hover::after {
+      width: 100%;
+    }
+    
+    /* Hobbies Section Styles */
+    .hobbies-section {
+      padding: 6rem 0;
+      background-color: #f9fafb;
+    }
+    
+    .hobby-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    
+    .hobby-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .hobby-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .hobby-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .hobby-card .icon-wrapper {
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      color: var(--primary-color);
+    }
+    
+    .hobby-card:nth-child(1) .icon-wrapper {
+      color: #4f46e5;
+    }
+    
+    .hobby-card:nth-child(2) .icon-wrapper {
+      color: #10b981;
+    }
+    
+    .hobby-card:nth-child(3) .icon-wrapper {
+      color: #f97316;
+    }
+    
+    .hobby-card:nth-child(4) .icon-wrapper {
+      color: #8b5cf6;
+    }
+    
+    .hobby-card:nth-child(5) .icon-wrapper {
+      color: #ec4899;
+    }
+    
+    .hobby-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    /* Footer Styles */
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    
+    .social-links {
+      margin-bottom: 1rem;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.5rem;
+      margin: 0 0.5rem;
+      transition: var(--transition);
+    }
+    
+    .social-links a:hover {
+      color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    
+    /* Animation classes */
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    
+    .fade-in-up {
+      animation: fadeInUp 1s forwards;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 70%;
+        background-color: white;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: var(--transition);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .nav-links.active {
+        right: 0;
+      }
+      
+      .nav-links li {
+        margin: 1.5rem 0;
+      }
+      
+      .nav-links a {
+        color: var(--dark-color);
+        font-size: 1.2rem;
+      }
+      
+      .hamburger {
+        display: block;
+        z-index: 2000;
+      }
+      
+      .hobby-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .contact-cards {
+        grid-template-columns: 1fr;
+      }
+      
+      .hobby-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <a href="javascript:void(0)" class="logo">RB</a>
+      <button class="hamburger" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="javascript:void(0)" class="active" data-section="home">Home</a></li>
+        <li><a href="javascript:void(0)" data-section="contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <!-- Header Section -->
+  <header id="home">
+    <div class="animate__animated animate__fadeIn">
+      <h1 class="animate__animated animate__fadeInDown">Roland Berroya</h1>
+      <p class="animate__animated animate__fadeInUp">Welcome to my personal contact page. Feel free to reach out.</p>
+      <a href="javascript:void(0)" class="header-btn animate__animated animate__fadeInUp animate__delay-1s" data-scroll="contact">Get in Touch</a>
+    </div>
+    <div class="animate__animated animate__fadeIn animate__delay-1s floating" style="position: absolute; bottom: 30px;">
+      <i class="fas fa-chevron-down" style="font-size: 1.5rem;"></i>
+    </div>
+  </header>
+  
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <h2 class="section-title">Contact Information</h2>
+      <div class="contact-cards">
+        <!-- Email Card -->
+        <div class="contact-card">
+          <div class="icon-wrapper">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <h3>Email Address</h3>
+          <p>Feel free to send me an email anytime. I'll get back to you as soon as possible.</p>
+          <a href="mailto:rolandberroya1@gmail.com" class="contact-link">rolandberroya1@gmail.com</a>
+        </div>
+        
+        <!-- Phone Card -->
+        <div class="contact-card">
+          <div class="icon-wrapper">
+            <i class="fas fa-phone-alt"></i>
+          </div>
+          <h3>Phone Number</h3>
+          <p>Available for calls during business hours. Feel free to reach out.</p>
+          <a href="tel:09071189896" class="contact-link">09071189896</a>
+        </div>
+        
+        <!-- Location Card -->
+        <div class="contact-card">
+          <div class="icon-wrapper">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <h3>Location</h3>
+          <p>You can find me at this address if you'd like to meet in person.</p>
+          <a href="https://maps.google.com/?q=51 Harvard St, E Rodriguez, Quezon City" target="_blank" class="contact-link">51 Harvard St, E Rodriguez, Quezon City</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hobbies Section -->
+  <section id="hobbies" class="hobbies-section">
+    <div class="container">
+      <h2 class="section-title">My Hobbies</h2>
+      <div class="hobby-cards">
+        <!-- Learning programs -->
+        <div class="hobby-card">
+          <div class="icon-wrapper">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>Learning programs</h3>
+        </div>
+        
+        <!-- Coding -->
+        <div class="hobby-card">
+          <div class="icon-wrapper">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <h3>Coding</h3>
+        </div>
+        
+        <!-- Playing video games -->
+        <div class="hobby-card">
+          <div class="icon-wrapper">
+            <i class="fas fa-gamepad"></i>
+          </div>
+          <h3>Playing video games</h3>
+        </div>
+        
+        <!-- Playing instruments -->
+        <div class="hobby-card">
+          <div class="icon-wrapper">
+            <i class="fas fa-music"></i>
+          </div>
+          <h3>Playing instruments</h3>
+        </div>
+        
+        <!-- Being playful -->
+        <div class="hobby-card">
+          <div class="icon-wrapper">
+            <i class="fas fa-smile-beam"></i>
+          </div>
+          <h3>Being playful</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer Section -->
+  <footer>
+    <div class="container">
+      <div class="social-links">
+        <a href="javascript:void(0)" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="javascript:void(0)" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="javascript:void(0)" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="javascript:void(0)" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Raverr Berroya. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script id="app-script">
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('header, section');
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-links');
+    const scrollLinks = document.querySelectorAll('[data-scroll]');
+    const contactCards = document.querySelectorAll('.contact-card');
+    const hobbyCards = document.querySelectorAll('.hobby-card');
+    
+    // Handle hamburger menu
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      hamburger.innerHTML = navMenu.classList.contains('active') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Close mobile menu when clicking a link
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+    
+    // Smooth scroll to sections
+    scrollLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('data-scroll');
+        const targetSection = document.getElementById(targetId);
+        
+        window.scrollTo({
+          top: targetSection.offsetTop,
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    // Scroll effects
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY;
+      
+      // Navbar effect
+      if (scrollPosition > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+      
+      // Highlight active nav link
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-section') === sectionId) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+      
+      // Fade in contact cards
+      contactCards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (cardTop < windowHeight - 100) {
+          card.classList.add('visible');
+        }
+      });
+      
+      // Fade in hobby cards
+      hobbyCards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (cardTop < windowHeight - 100) {
+          card.classList.add('visible');
+        }
+      });
+    });
+    
+    // Initial animation on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        if (window.scrollY < 100) {
+          // Only animate cards if user hasn't scrolled yet
+          contactCards.forEach((card, index) => {
+            setTimeout(() => {
+              card.style.transition = 'var(--transition)';
+            }, index * 200);
+          });
+          
+          hobbyCards.forEach((card, index) => {
+            setTimeout(() => {
+              card.style.transition = 'var(--transition)';
+            }, index * 200);
+          });
+        }
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
